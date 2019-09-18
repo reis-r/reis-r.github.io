@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Fôrça Bruta! - clojure</title><link>https://reis-r.github.io/</link><description></description><lastBuildDate>Wed, 18 Sep 2019 16:49:00 -0300</lastBuildDate><item><title>Mixing Clojure and Data Science</title><link>https://reis-r.github.io/mixing-clojure-and-data-science.html</link><description>
+      &lt;p&gt;I finally started learning some Clojure. I must say, it's a really good language to work on, and perfect if you need to do things in parallel (like matrix operations). I tried out some data science capabilities on it, and it's very doable.&lt;/p&gt;
+      &lt;!-- &lt;h1&gt;Some Machine learning&lt;/h1&gt; --&gt;
+      &lt;p&gt;
+        You can use machine learning algorithms in …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Rony Reis</dc:creator><pubDate>Wed, 18 Sep 2019 16:49:00 -0300</pubDate><guid isPermaLink="false">tag:reis-r.github.io,2019-09-18:/mixing-clojure-and-data-science.html</guid><category>clojure</category><category>data science</category><category>programming</category></item></channel></rss>

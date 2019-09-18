@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Fôrça Bruta! - clojure</title><link href="https://reis-r.github.io/" rel="alternate"></link><link href="https://reis-r.github.io/feeds/clojure.atom.xml" rel="self"></link><id>https://reis-r.github.io/</id><updated>2019-09-18T16:49:00-03:00</updated><entry><title>Mixing Clojure and Data Science</title><link href="https://reis-r.github.io/mixing-clojure-and-data-science.html" rel="alternate"></link><published>2019-09-18T16:49:00-03:00</published><updated>2019-09-18T16:49:00-03:00</updated><author><name>Rony Reis</name></author><id>tag:reis-r.github.io,2019-09-18:/mixing-clojure-and-data-science.html</id><summary type="html">
+      &lt;p&gt;I finally started learning some Clojure. I must say, it's a really good language to work on, and perfect if you need to do things in parallel (like matrix operations). I tried out some data science capabilities on it, and it's very doable.&lt;/p&gt;
+      &lt;!-- &lt;h1&gt;Some Machine learning&lt;/h1&gt; --&gt;
+      &lt;p&gt;
+        You can use machine learning algorithms in …&lt;/p&gt;</summary><content type="html">
+      &lt;p&gt;I finally started learning some Clojure. I must say, it's a really good language to work on, and perfect if you need to do things in parallel (like matrix operations). I tried out some data science capabilities on it, and it's very doable.&lt;/p&gt;
+      &lt;!-- &lt;h1&gt;Some Machine learning&lt;/h1&gt; --&gt;
+      &lt;p&gt;
+        You can use machine learning algorithms in any language, really. In a lisp you can get creative with stuff like macros and all the flexibility it offers. In Clojure the sky isn't really the limit. The way it handles concurrency and data structures is just amazing, and complex too, but the language lets you handle it very easily. &lt;strong&gt;Numbers are arbitrarily precise&lt;/strong&gt;! When I realised that, I just went mad in love with Clojure: it uses the concept of number pile from Scheme, no more floating-point nonsense.&lt;/p&gt;&lt;p&gt; I triend doing Naive Bayes and K-means from scratch and it wasn't too difficult (at least with the dataset I was using). If you really want to just throw data into something to get results back you can always use the great &lt;a href="https://www.cs.waikato.ac.nz/ml/weka/"&gt;WEKA&lt;/a&gt; machine learning software, &lt;a href="http://clj-ml.artifice.cc/doc/index.html"&gt;Clj-ml&lt;/a&gt; has an interface for it. There is also &lt;a href="https://mxnet.apache.org"&gt;MXNet&lt;/a&gt; for deep learning and &lt;a href="https://github.com/dakrone/clojure-opennlp"&gt;clojure-opennlp&lt;/a&gt; as interface to OpenNLP and &lt;a href="https://github.com/Bridgei2i/clojure-word2vec"&gt;clojure-word2vec&lt;/a&gt; as a wrapper around a Java implementation of Word2Vec.
+      &lt;/p&gt;
+      &lt;!-- &lt;h1&gt;Statistical computing and visualization&lt;/h1&gt; --&gt;
+      &lt;p&gt;
+        &lt;a href="http://incanter.org"&gt;Incanter&lt;/a&gt; has statistical computing and some visualisation functions. Matrix, linear algebra functions... pretty much everything R does you can do with it. I personally didn't had much fun with it &lt;strong&gt;yet&lt;/strong&gt; (my bad!).
+      &lt;/p&gt;
+      &lt;!-- &lt;h1&gt;What about the enviroment?&lt;/h1&gt; --&gt;
+      &lt;p&gt;
+        I don't think it's super easy to do data science with Clojure, but not impossible and very rewarding. If I were to build a large long-running super critical scalable system that uses ML and I had to choose, I would do it in Clojure. But for most EDA, prototyping and simpler stuff, I'd stick with Python, at least for now that I'm an apprentice of The Arts. In fact, that's what I plan to do next, focusing in learning the algorithms rather than just playing around with the tools. Time to get serious! :-P
+      &lt;/p&gt;
+      &lt;h1&gt;Useful resources to look for&lt;/h1&gt;
+      &lt;p&gt;There are two books that helped (and will help, hopefully) me a lot with this:
+        &lt;ul&gt;
+          &lt;li&gt;&lt;i&gt;Clojure Data Analysis Cookbook&lt;/i&gt;, by ROCHESTER, Eric. 2015.&lt;/li&gt;
+          &lt;li&gt;&lt;i&gt;Clojure for Machine Learning&lt;/i&gt;, by WALY, Akhil. 2014.&lt;/li&gt;
+        &lt;/ul&gt;
+        With these two books (and some previous Clojure knowedge, of course), you are pretty much ready to do data science with clojure.
+      &lt;/p&gt;
+    </content><category term="clojure"></category><category term="data science"></category><category term="programming"></category></entry></feed>
