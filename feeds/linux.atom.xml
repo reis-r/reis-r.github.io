@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Fôrça Bruta! - Linux</title><link href="https://reis-r.github.io/" rel="alternate"></link><link href="https://reis-r.github.io/feeds/linux.atom.xml" rel="self"></link><id>https://reis-r.github.io/</id><updated>2020-04-18T00:00:00-03:00</updated><entry><title>Basic Nix configuration</title><link href="https://reis-r.github.io/basic-nix-configuration.html" rel="alternate"></link><published>2020-04-18T00:00:00-03:00</published><updated>2020-04-18T00:00:00-03:00</updated><author><name>Rony Reis</name></author><id>tag:reis-r.github.io,2020-04-18:/basic-nix-configuration.html</id><summary type="html">&lt;p&gt;A basic Nix package manager configuration for home use&lt;/p&gt;</summary><content type="html">&lt;p&gt;I'm a distro hopper and I frequently try new and weird systems, but now I think I managed to find balance on NixOS. NixOS is a Linux distribution that uses a really nice package manager called Nix. The system and package manager are configured using a functional language. In this post I'll describe how I configured my system.&lt;/p&gt;
+&lt;h1&gt;How it works&lt;/h1&gt;
+&lt;p&gt;You can install the Nix package manager in any Linux distro (and Mac), it has some nice features. The general idea is that you describe what you want your system to be on a script and then it does as you wish, and just that. On NixOS most of your system configuration goes on the file &lt;code&gt;/etc/nixos/configuation.nix&lt;/code&gt;. You can, leave it for the users of your system to choose which packages to install (the packages manager does that by default). You can even use &lt;code&gt;.nix&lt;/code&gt; files to manage development environments and temporally install compilers just for building or running some piece of code. I'm using it instead of Anaconda and it does the same job very well (and with more packages and options).&lt;/p&gt;
+&lt;h1&gt;How to go about it&lt;/h1&gt;
+&lt;p&gt;I put on my &lt;code&gt;configuration.nix&lt;/code&gt; just system-wide stuff, like services, system configuration, X11, window manager, desktop manager, etc. There's is a lot of documentation on it on the web. You can also install programs using the command line as normal user like any other package manager. But what I find interesting is to pick the software collection using a text file so I can have a notion of what I have installed. You can also backup this file and re-install everything with one single command, if you ever need to. &lt;/p&gt;
+&lt;p&gt;The actual programs I install as normal user by the means of the &lt;code&gt;~/.config/nixpkgs/config.nix&lt;/code&gt;. Basically what you need to do there is to define a new "package" with all the software you want installed. My configuration looks like that:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;{&lt;/span&gt;
+&lt;span class="err"&gt;    packageOverrides = pkgs: with pkgs; rec {&lt;/span&gt;
+&lt;span class="err"&gt;    myPackages = buildEnv {&lt;/span&gt;
+&lt;span class="err"&gt;    name = &amp;quot;my-cool-programs&amp;quot;;&lt;/span&gt;
+&lt;span class="err"&gt;    paths = [&lt;/span&gt;
+&lt;span class="err"&gt;        # internet&lt;/span&gt;
+&lt;span class="err"&gt;        firefox&lt;/span&gt;
+&lt;span class="err"&gt;        &amp;lt;packages go here...&amp;gt;&lt;/span&gt;
+&lt;span class="err"&gt;            ];&lt;/span&gt;
+&lt;span class="err"&gt;        };&lt;/span&gt;
+&lt;span class="err"&gt;    };&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So in that case, "my-cool-programs" is our "package" (I'm pretty sure this is not the right jargon for this). What you need to do then is to run &lt;code&gt;nix-env -i my-cool-programs --remove-all&lt;/code&gt;. This will install the packages you mentioned on the configuation. The &lt;code&gt;--remove-all&lt;/code&gt; option means that you will remove everything you had before installing your package, I think the system-wide command for building the system (&lt;code&gt;nixos-rebuild&lt;/code&gt;) may work in similar way behind the scenes.&lt;/p&gt;
+&lt;p&gt;Bonus points: I created Emacs commands for both editing the configuration file and running the install command. &lt;em&gt;stonks&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;There is more. Lot more. But I'm pretty happy with this simple setup already. You can also use &lt;code&gt;.nix&lt;/code&gt; files to create temporary environments you can do if for building/testing software or for running environments like conda/virtualenv (good for Jupyter notebooks).&lt;/p&gt;</content><category term="Linux"></category><category term="linux"></category><category term="unix"></category><category term="nix"></category><category term="nixos"></category><category term="operating systems"></category></entry></feed>

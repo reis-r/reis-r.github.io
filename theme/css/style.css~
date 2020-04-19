@@ -92,7 +92,8 @@ a:active {
 
 #content {
     padding-right: 1rem;
-    flex-basis: 40rem;
+    flex-basis: 80vw;
+    flex-grow: 1;
     margin: auto;
 }
 
