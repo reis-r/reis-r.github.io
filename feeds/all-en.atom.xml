@@ -7,12 +7,12 @@
 &lt;p&gt;The actual programs I install as normal user by the means of the &lt;code&gt;~/.config/nixpkgs/config.nix&lt;/code&gt;. Basically what you need to do there is to define a new "package" with all the software you want installed. My configuration looks like that:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;{&lt;/span&gt;
 &lt;span class="err"&gt;    packageOverrides = pkgs: with pkgs; rec {&lt;/span&gt;
-&lt;span class="err"&gt;    myPackages = buildEnv {&lt;/span&gt;
-&lt;span class="err"&gt;    name = &amp;quot;my-cool-programs&amp;quot;;&lt;/span&gt;
-&lt;span class="err"&gt;    paths = [&lt;/span&gt;
-&lt;span class="err"&gt;        # internet&lt;/span&gt;
-&lt;span class="err"&gt;        firefox&lt;/span&gt;
-&lt;span class="err"&gt;        &amp;lt;packages go here...&amp;gt;&lt;/span&gt;
+&lt;span class="err"&gt;        myPackages = buildEnv {&lt;/span&gt;
+&lt;span class="err"&gt;        name = &amp;quot;my-cool-programs&amp;quot;;&lt;/span&gt;
+&lt;span class="err"&gt;        paths = [&lt;/span&gt;
+&lt;span class="err"&gt;            # internet&lt;/span&gt;
+&lt;span class="err"&gt;            firefox&lt;/span&gt;
+&lt;span class="err"&gt;            &amp;lt;packages go here...&amp;gt;&lt;/span&gt;
 &lt;span class="err"&gt;            ];&lt;/span&gt;
 &lt;span class="err"&gt;        };&lt;/span&gt;
 &lt;span class="err"&gt;    };&lt;/span&gt;
