@@ -1,5 +1,4 @@
 body {
-    /* font-family: cursive; */
     font-family: serif;
     color: #64075f;
     background: #f8d1f6;
@@ -41,11 +40,10 @@ a:active {
 }
 
 #banner {
-    padding: 3.819660vh;
+    padding: 3.819660vh 0;
     display: flex;
-    flex-basis: 100vmax;
-    height: auto;
-    margin: auto;
+    flex-basis: 100vw;
+    margin: 0 5vw;
     background-image: url("../images/bg.png");
     background-size: 40vmin;
 }
@@ -55,11 +53,12 @@ a:active {
     font-weight: bold;
     margin: auto;
     font-size: 3rem;
+    text-align: center;
 }
+
 #banner a {
     text-decoration: underline overline;
     background-color: #def7f8;
-    
 }
 
 #menu {
@@ -70,12 +69,6 @@ a:active {
     align-items: flex-start;
     align-content: center;
     margin: 0 auto;
-}
-
-@media (min-width: 769px) {
-    #menu {
-	flex-direction: column;
-    }
 }
 
 #menu ul {
@@ -99,12 +92,13 @@ a:active {
 
 #content {
     padding-right: 1rem;
-    flex-basis: 40rem;
+    flex-basis: 80vw;
+    flex-grow: 1;
     margin: auto;
 }
 
 #content ol {
-    list-style-type: lower-greek;
+    list-style-type: none;
 }
 
 #about {
@@ -115,4 +109,13 @@ a:active {
 #contentinfo {
     display:flex;
     flex-basis: 100vmax;
+}
+
+@media (min-width: 769px) {
+    #menu {
+	flex-direction: column;
+    }
+    body {
+	font-size: 1.2rem;
+    }
 }

@@ -92,14 +92,13 @@ a:active {
 
 #content {
     padding-right: 1rem;
-    padding-left: 1rem;
     flex-basis: 80vw;
     flex-grow: 1;
     margin: auto;
 }
 
 #content ol {
-    list-style-type: none;
+    list-style-type: lower-greek;
 }
 
 #about {
@@ -116,7 +115,7 @@ a:active {
     #menu {
 	flex-direction: column;
     }
-    /* body { */
-    /* 	font-size: 1.2rem; */
-    /* } */
+    body {
+	font-size: 1.2rem;
+    }
 }
