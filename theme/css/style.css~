@@ -98,7 +98,7 @@ a:active {
 }
 
 #content ol {
-    list-style-type: lower-greek;
+    list-style-type: none;
 }
 
 #about {
