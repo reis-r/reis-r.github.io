@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>Fôrça Bruta! - Nix: getting Hy in Python 3 for science</title>
+    <link rel="shortcut icon" href="https://reis-r.github.io/theme/images/favicon.ico?v=2" />
+    <meta charset="utf-8" />
+    <!-- For responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://reis-r.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Fôrça Bruta! Full Atom Feed" />
+    <link href="https://reis-r.github.io/feeds/linux.atom.xml" type="application/atom+xml" rel="alternate" title="Fôrça Bruta! Categories Atom Feed" />
+    <link rel="stylesheet" type="text/css" href="https://reis-r.github.io/theme/css/style.css" />
+
+
+
+
+    <meta name="tags" content="linux" />
+    <meta name="tags" content="hy" />
+    <meta name="tags" content="python" />
+    <meta name="tags" content="nix" />
+
+  </head>
+
+  <body id="index" class="home">
+    <header id="banner" class="body">
+      <h1><a href="https://reis-r.github.io/">Fôrça Bruta! <strong></strong></a></h1>
+    </header><!-- /#banner -->
+    
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="https://reis-r.github.io/nix-getting-hy-in-python-3-for-science.html" rel="bookmark"
+         title="Permalink to Nix: getting Hy in Python 3 for science">Nix: getting Hy in Python 3 for science</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+    <time class="published" datetime="2020-04-19T00:00:00-03:00">
+      Sun 19 April 2020
+    </time>
+    <time class="modified" datetime="2020-04-19T00:00:00-03:00">
+      Sun 19 April 2020
+    </time>
+    <address class="vcard author">
+      By           <a class="url fn" href="https://reis-r.github.io/author/rony-reis.html">Rony Reis</a>
+    </address>
+    <div class="category">
+        Category: <a href="https://reis-r.github.io/category/linux.html">Linux</a>
+    </div>
+    <div class="tags">
+        Tags:
+            <a href="https://reis-r.github.io/tag/linux.html">linux </a>
+            <a href="https://reis-r.github.io/tag/hy.html">hy </a>
+            <a href="https://reis-r.github.io/tag/python.html">python </a>
+            <a href="https://reis-r.github.io/tag/nix.html">nix </a>
+    </div>
+  </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <p><a href="https://reis-r.github.io/basic-nix-configuration.html">Last post</a> I showed how I managed to configure my Nix packages. I mentioned it basically replaces the <a href="https://www.anaconda.com/distribution/">Anaconda distribution</a>. Today I wanted to start a new school assignment and wanted to do it Hy 🤡. I wanted to have a coherent and predictable system that I can count on and that I will not need to bother with dependencies. An example of why this matters is that having installed pandas using Python's <em>venv</em>, it complained about some missing dependency (<code>libstdc++</code>, I think, if you're curious) - at the runtime.</p>
+<p>Nix has a Hy package by default, and I can live being on version 0.17.0 (one version behind current), but running on Python 2 (the default on Nix) is unacceptable.</p>
+<h1>Newbie disclaimer about the Nix language</h1>
+<p>Nix is amazing. But most of the time I do something using it I know about half of what is going on. There are some docs and useful resources, but it's often hard to link the points and make sense in order to do what you want to. It's very common to have found the snippets of code you wanted to find, just to realize you don't know where to put it, or how to call it, which command will do what (<code>nix-build</code>, <code>nix-shell</code>, <code>nixos-rebuild</code>...). If that ever happens to you, my advice is to just keep calm and keep messing around, you'll eventually get it. Nix will be mostly fool-proof and will not do anything stupid if it doesn't understand what you want to do. It just fails safe.</p>
+<h1>How to get it done</h1>
+<p>I think it's best to just show the code first and answer questions later:</p>
+<div class="highlight"><pre><span></span><span class="nt">my-hy</span> <span class="o">=</span> <span class="nt">python3</span><span class="p">.</span><span class="nc">pkgs</span><span class="p">.</span><span class="nc">buildPythonPackage</span> <span class="nt">rec</span> <span class="p">{</span>
+    <span class="err">pname</span> <span class="err">=</span> <span class="err">&quot;hy&quot;</span><span class="p">;</span>
+    <span class="err">version</span> <span class="err">=</span> <span class="err">&quot;0.17.0&quot;</span><span class="p">;</span>
+    <span class="err">src</span> <span class="err">=</span> <span class="err">python3.pkgs.fetchPypi</span> <span class="err">{</span>
+        <span class="err">inherit</span> <span class="err">pname</span> <span class="err">version</span><span class="p">;</span>
+        <span class="err">sha256</span> <span class="err">=</span> <span class="err">&quot;d17d203f3ea4fdd0d69f153b528d7633e8cf55f1f55ccb8118b2379da3c6abbd&quot;</span><span class="p">;</span>
+    <span class="p">}</span><span class="o">;</span>
+    <span class="nt">doCheck</span> <span class="o">=</span> <span class="nt">false</span><span class="o">;</span>
+    <span class="nt">propagatedBuildInputs</span> <span class="o">=</span> <span class="nt">with</span> <span class="nt">python3Packages</span><span class="o">;</span> <span class="cp">[</span>
+        <span class="nx">appdirs</span>
+        <span class="nx">astor</span>
+        <span class="nx">clint</span>
+        <span class="nx">fastentrypoints</span>
+        <span class="nx">funcparserlib</span>
+        <span class="nx">rply</span>
+    <span class="cp">]</span><span class="o">;</span>
+    <span class="nt">meta</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="err">description</span> <span class="err">=</span> <span class="err">&quot;A</span> <span class="err">LISP</span> <span class="err">dialect</span> <span class="err">embedded</span> <span class="err">in</span> <span class="err">Python&quot;</span><span class="p">;</span>
+        <span class="err">homepage</span> <span class="err">=</span> <span class="err">&quot;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">hylang</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="err">&quot;</span><span class="p">;</span>
+    <span class="p">}</span><span class="o">;</span>
+<span class="err">}</span><span class="o">;</span>
+
+<span class="nt">my-python-packages</span> <span class="o">=</span> <span class="nt">python-packages</span><span class="o">:</span> <span class="nt">with</span> <span class="nt">python-packages</span><span class="o">;</span> <span class="cp">[</span>
+    <span class="nx">pandas</span>
+    <span class="nx">my</span><span class="na">-hy</span>
+    <span class="nx">pelican</span>
+    <span class="nx">markdown</span>
+    <span class="err">#</span> <span class="nx">other</span> <span class="nx">python</span> <span class="nx">packages</span> <span class="nx">you</span> <span class="nx">want</span>
+<span class="cp">]</span><span class="o">;</span>
+
+<span class="nt">python-env</span> <span class="o">=</span> <span class="nt">python3</span><span class="p">.</span><span class="nc">withPackages</span> <span class="nt">my-python-packages</span><span class="o">;</span>
+</pre></div>
+
+
+<p>First of all, what you're doing here is just the same we did on my last blog, you're defining "packages" for your "environment" (I think "derivation" is the correct term). You're supposed to put it side by side (on the same level) of our <code>myPackages</code> code, the one inside the <code>packageOverrides</code> block. I tried to outsource it to another file like I did with my Emacs build but I'm yet to figure out how to do it, so my <code>config.nix</code> is looong.</p>
+<p><img alt="A long cat" src="https://www.catster.com/wp-content/uploads/2015/06/600px-outer-space-longcat-6ztyxR.jpg" title="A screenshot of my full config.nix file right now"></p>
+<p>Order is not really mandatory on the Nix language since it's lazy. but the first part is the <code>my-hy</code> thing (should I say "package?"). It builds the Hy language version 0.17.0 <em>automagically</em> downloading it from pypi and checking the hashes. It also defines some runtime dependencies. You can also set it build dependencies (more on that <a href="https://nixos.org/nixpkgs/manual/#python">here</a>). I basically ripped that part from <a href="https://github.com/NixOS/nixpkgs/blob/32749eee42b20eb90718a7639164542159a9e356/pkgs/development/interpreters/hy/default.nix">the official nixpkgs github repository</a> and threw away some of the metadata responsible for errors. I tried this with the newest Hy version, 0.18.0, but it promptly complained about dependencies not being up to date. As 0.17.0 is good enough (if the Python version isn't legacy), I didn't go further.</p>
+<p>The second part (<code>my-python-packages</code> on the code) is just for defining which python packages I wanted installed together with Hy. Without it you would get the Hy package but it wouldn't find python libraries installed (at least here it didn't) in the system, which is the hole point of using Hy. I'm pretty sure this is how Nix is supposed to work anyway, to avoid conflicts between packages, which is actually pretty cool. The third package-but-not-really is <code>python-env</code>, it is, as explained <a href="https://nixos.wiki/wiki/Python">here</a> just applying the function <code>my-python-packages</code> (oh yeah, function!) and saying "hey, install Python and the packages on <code>my-python-packages</code>, thank you".</p>
+<p>After coding this to your configuration file, all you need to do is to <code>python-env</code> on your packages list like just another package you want to install. And off you go.</p>
+<h1>Conclusion</h1>
+<p>I'll try to adapt this into a proper system package and send a PR to the Nixpkgs guys so everyone can use this great language on this really nice system, but I can't promise anything. Also, I bet I did some things wrong here. The classic disclaimer is in order: don't try this at home, I'm not responsible if you accidentally set yourself on fire.</p>
+<p>Outside from Hy, I don't think I really need anything out of ordinary in Python. You really should do all of this configuration in a per-project basis but I'm one lazy bastard. If I ever need some feature in 0.18.0 (it's a very nice release) I'll do it. I'll try to write about my Emacs configuration on Nix in the future, it's quite nice and actually easier than this. </p>
+  </div><!-- /.entry-content -->
+</section>
+
+    <nav id="menu">
+      <ul>        <li><a href="https://reis-r.github.io/pages/about-me.html">About Me</a></li>
+</ul>
+
+      <ul><h4>Links:</h4>
+        <li><a href="/archives.html">Archives</a></li>
+        <li><a href="https://github.com/reis-r">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/reis-r/">LinkedIn</a></li>
+        <li><a href="https://undeadelectrichyena.bandcamp.com">My Music</a></li>
+        <li><a href="/feeds/all.rss.xml">RSS</a></li>
+        <li><a href="https://ko-fi.com/G2G11HSUS">Buy me Ko-fi</a></li>
+        <li><a href="https://www.twitch.tv/boicolorido">Twitch.TV</a></li>
+        <li><a href="https://twitter.com/reis__r">Twitter</a></li>
+</ul>
+      
+      <ul>	<h4>By topic:</h4>
+	<li><a href="https://reis-r.github.io/category/clojure.html">Clojure</a></li>
+	<li><a href="https://reis-r.github.io/category/hy.html">Hy</a></li>
+	<li class="active"><a href="https://reis-r.github.io/category/linux.html">Linux</a></li>
+	<li><a href="https://reis-r.github.io/category/misc.html">misc</a></li>
+	<li><a href="https://reis-r.github.io/category/python.html">Python</a></li>
+      </ul>      
+    </nav><!-- /#menu -->
+    
+    <br>
+    <footer id="contentinfo" class="body">
+      <address id="about" class="vcard body">
+	<center>
+	  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+	  <br />
+	  Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+	  which takes great advantage of <a href="http://python.org">Python</a>.
+	  
+	</center>
+      </address><!-- /#about -->
+    </footer><!-- /#contentinfo -->
+    
+  </body>
+</html>
