@@ -1,121 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-      <title>Fôrça Bruta! - Basic Nix configuration</title>
-    <link rel="shortcut icon" href="https://reis-r.github.io/theme/images/favicon.ico?v=2" />
-    <meta charset="utf-8" />
-    <!-- For responsive design -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://reis-r.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Fôrça Bruta! Full Atom Feed" />
-    <link href="https://reis-r.github.io/feeds/linux.atom.xml" type="application/atom+xml" rel="alternate" title="Fôrça Bruta! Categories Atom Feed" />
-    <link rel="stylesheet" type="text/css" href="https://reis-r.github.io/theme/css/style.css" />
-
-
-
-
-    <meta name="tags" content="linux" />
-    <meta name="tags" content="unix" />
-    <meta name="tags" content="nix" />
-    <meta name="tags" content="nixos" />
-    <meta name="tags" content="operating systems" />
-
-  </head>
-
-  <body id="index" class="home">
-    <header id="banner" class="body">
-      <h1><a href="https://reis-r.github.io/">Fôrça Bruta! <strong></strong></a></h1>
-    </header><!-- /#banner -->
-    
-<section id="content" class="body">
-  <header>
-    <h2 class="entry-title">
-      <a href="https://reis-r.github.io/basic-nix-configuration.html" rel="bookmark"
-         title="Permalink to Basic Nix configuration">Basic Nix configuration</a></h2>
- 
-  </header>
-  <footer class="post-info">
-    <time class="published" datetime="2020-04-18T00:00:00-03:00">
-      Sat 18 April 2020
-    </time>
-    <address class="vcard author">
-      By           <a class="url fn" href="https://reis-r.github.io/author/rony-reis.html">Rony Reis</a>
-    </address>
-    <div class="category">
-        Category: <a href="https://reis-r.github.io/category/linux.html">linux</a>
-    </div>
-    <div class="tags">
-        Tags:
-            <a href="https://reis-r.github.io/tag/linux.html">linux </a>
-            <a href="https://reis-r.github.io/tag/unix.html">unix </a>
-            <a href="https://reis-r.github.io/tag/nix.html">nix </a>
-            <a href="https://reis-r.github.io/tag/nixos.html">nixos </a>
-            <a href="https://reis-r.github.io/tag/operating-systems.html">operating systems </a>
-    </div>
-  </footer><!-- /.post-info -->
-  <div class="entry-content">
-    <p>I'm a distro hopper and I frequently try new and weird systems, but now I think I managed to find balance on NixOS. NixOS is a Linux distribution that uses a really nice package manager called Nix. The system and package manager are configured using a functional language. In this post I'll describe how I configured my system.</p>
-<h1>How it works</h1>
-<p>You can install the Nix package manager in any Linux distro (and Mac), it has some nice features. The general idea is that you describe what you want your system to be on a script and then it does as you wish, and just that. On NixOS most of your system configuration goes on the file <code>/etc/nixos/configuation.nix</code>. You can, leave it for the users of your system to choose which packages to install (the packages manager does that by default). You can even use <code>.nix</code> files to manage development environments and temporally install compilers just for building or running some piece of code. I'm using it instead of Anaconda and it does the same job very well (and with more packages and options).</p>
-<h1>How to go about it</h1>
-<p>I put on my <code>configuration.nix</code> just system-wide stuff, like services, system configuration, X11, window manager, desktop manager, etc. There's is a lot of documentation for it on the web. You can also install programs using the command line as normal user like any other package manager. But what I find interesting is to pick the software collection using a text file so I can have a notion of what I have installed. You can also backup this file and re-install everything with one single command, if you ever need to. </p>
-<p>The actual programs I install as normal user by the means of the <code>~/.config/nixpkgs/config.nix</code>. Basically what you need to do there is to define a new "package" with all the software you want installed. My configuration looks like that:</p>
-<div class="highlight"><pre><span></span><span class="err">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">packageOverrides</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nl">pkgs</span><span class="p">:</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">pkgs</span><span class="p">;</span><span class="w"> </span><span class="n">rec</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">myPackages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buildEnv</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;my-cool-programs&quot;</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="n">paths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n"></span>
-<span class="n">            # internet</span>
-<span class="n">            firefox</span>
-<span class="n">            &lt;packages go here...&gt;</span>
-<span class="n">            </span><span class="o">]</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="err">}</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="err">}</span><span class="p">;</span><span class="w"></span>
-<span class="err">}</span><span class="w"></span>
-</pre></div>
-
-
-<p>So in that case, "my-cool-programs" is our "package" (I'm pretty sure this is not the right jargon for this). What you need to do then is to run <code>nix-env -i my-cool-programs --remove-all</code>. This will install the packages you mentioned on the configuation. The <code>--remove-all</code> option means that you will remove everything you had before installing your package, I think the system-wide command for building the system (<code>nixos-rebuild</code>) may work in similar way behind the scenes.</p>
-<p>Bonus points: I created Emacs commands for both editing the configuration file and running the install command. <em>stonks</em></p>
-<p>There is more. Lot more. But I'm pretty happy with this simple setup already. You can also use <code>.nix</code> files to create temporary environments you can do if for building/testing software or for running environments like conda/virtualenv (good for Jupyter notebooks).</p>
-  </div><!-- /.entry-content -->
-</section>
-
-    <nav id="menu">
-      <ul>        <li><a href="https://reis-r.github.io/pages/about-me.html">About Me</a></li>
-</ul>
-
-      <ul><h4>Links:</h4>
-        <li><a href="/archives.html">Archives</a></li>
-        <li><a href="https://github.com/reis-r">GitHub</a></li>
-        <li><a href="https://www.linkedin.com/in/reis-r/">LinkedIn</a></li>
-        <li><a href="https://undeadelectrichyena.bandcamp.com">My Music</a></li>
-        <li><a href="/feeds/all.rss.xml">RSS</a></li>
-        <li><a href="https://ko-fi.com/G2G11HSUS">Buy me Ko-fi</a></li>
-        <li><a href="https://www.twitch.tv/boicolorido">Twitch.TV</a></li>
-        <li><a href="https://twitter.com/reis__r">Twitter</a></li>
-</ul>
-      
-      <ul>	<h4>By topic:</h4>
-	<li><a href="https://reis-r.github.io/category/clojure.html">clojure</a></li>
-	<li><a href="https://reis-r.github.io/category/hy.html">hy</a></li>
-	<li class="active"><a href="https://reis-r.github.io/category/linux.html">linux</a></li>
-	<li><a href="https://reis-r.github.io/category/misc.html">misc</a></li>
-	<li><a href="https://reis-r.github.io/category/python.html">python</a></li>
-      </ul>      
-    </nav><!-- /#menu -->
-    
-    <br>
-    <footer id="contentinfo" class="body">
-      <address id="about" class="vcard body">
-	<center>
-	  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-	  <br />
-	  Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
-	  which takes great advantage of <a href="http://python.org">Python</a>.
-	  
-	</center>
-      </address><!-- /#about -->
-    </footer><!-- /#contentinfo -->
-    
-  </body>
-</html>
+<!DOCTYPE html><html lang=en><head><title>Fôrça Bruta! - Basic Nix configuration</title><link rel="shortcut icon" href="https://reis-r.github.io/theme/images/favicon.ico?v=2"><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1.0"><link href=https://reis-r.github.io/feeds/all.atom.xml type=application/atom+xml rel=alternate title="Fôrça Bruta! Full Atom Feed"><link href=https://reis-r.github.io/feeds/linux.atom.xml type=application/atom+xml rel=alternate title="Fôrça Bruta! Categories Atom Feed"><link rel=stylesheet type=text/css href=https://reis-r.github.io/theme/css/style.css><meta name=tags content=linux><meta name=tags content=unix><meta name=tags content=nix><meta name=tags content=nixos><meta name=tags content="operating systems"></head><body id=index class=home><header id=banner class=body><h1><a href=https://reis-r.github.io/ >Fôrça Bruta! <strong></strong></a></h1></header><section id=content class=body><header><h2 class=entry-title><a href=https://reis-r.github.io/basic-nix-configuration.html rel=bookmark title="Permalink to Basic Nix configuration">Basic Nix configuration</a></h2></header><footer class=post-info><time class=published datetime=2020-04-18T00:00:00-03:00> Sat 18 April 2020 </time><address class="vcard author"> By <a class="url fn" href=https://reis-r.github.io/author/rony-reis.html>Rony Reis</a></address><div class=category> Category: <a href=https://reis-r.github.io/category/linux.html>linux</a></div><div class=tags> Tags: <a href=https://reis-r.github.io/tag/linux.html>linux </a><a href=https://reis-r.github.io/tag/unix.html>unix </a><a href=https://reis-r.github.io/tag/nix.html>nix </a><a href=https://reis-r.github.io/tag/nixos.html>nixos </a><a href=https://reis-r.github.io/tag/operating-systems.html>operating systems </a></div></footer><div class=entry-content><p>I'm a distro hopper and I frequently try new and weird systems, but now I think I managed to find balance on NixOS. NixOS is a Linux distribution that uses a really nice package manager called Nix. The system and package manager are configured using a functional language. In this post I'll describe how I configured my system.</p><h1>How it works</h1><p>You can install the Nix package manager in any Linux distro (and Mac), it has some nice features. The general idea is that you describe what you want your system to be on a script and then it does as you wish, and just that. On NixOS most of your system configuration goes on the file <code>/etc/nixos/configuation.nix</code>. You can, leave it for the users of your system to choose which packages to install (the packages manager does that by default). You can even use <code>.nix</code> files to manage development environments and temporally install compilers just for building or running some piece of code. I'm using it instead of Anaconda and it does the same job very well (and with more packages and options).</p><h1>How to go about it</h1><p>I put on my <code>configuration.nix</code> just system-wide stuff, like services, system configuration, X11, window manager, desktop manager, etc. There's is a lot of documentation for it on the web. You can also install programs using the command line as normal user like any other package manager. But what I find interesting is to pick the software collection using a text file so I can have a notion of what I have installed. You can also backup this file and re-install everything with one single command, if you ever need to. </p><p>The actual programs I install as normal user by the means of the <code>~/.config/nixpkgs/config.nix</code>. Basically what you need to do there is to define a new "package" with all the software you want installed. My configuration looks like that:</p><div class=highlight><pre><span></span><code><span class=err>{</span>
+<span class=err>    packageOverrides = pkgs: with pkgs; rec {</span>
+<span class=err>        myPackages = buildEnv {</span>
+<span class=err>        name = &quot;my-cool-programs&quot;;</span>
+<span class=err>        paths = [</span>
+<span class=err>            # internet</span>
+<span class=err>            firefox</span>
+<span class=err>            &lt;packages go here...&gt;</span>
+<span class=err>            ];</span>
+<span class=err>        };</span>
+<span class=err>    };</span>
+<span class=err>}</span>
+</code></pre></div><p>So in that case, "my-cool-programs" is our "package" (I'm pretty sure this is not the right jargon for this). What you need to do then is to run <code>nix-env -i my-cool-programs --remove-all</code>. This will install the packages you mentioned on the configuation. The <code>--remove-all</code> option means that you will remove everything you had before installing your package, I think the system-wide command for building the system (<code>nixos-rebuild</code>) may work in similar way behind the scenes.</p><p>Bonus points: I created Emacs commands for both editing the configuration file and running the install command. <em>stonks</em></p><p>There is more. Lot more. But I'm pretty happy with this simple setup already. You can also use <code>.nix</code> files to create temporary environments you can do if for building/testing software or for running environments like conda/virtualenv (good for Jupyter notebooks).</p></div></section><nav id=menu><ul><li><a href=https://reis-r.github.io/pages/about-me.html>About Me</a></li></ul><ul><h4>Links:</h4><li><a href=/archives.html>Archives</a></li><li><a href=https://github.com/reis-r>GitHub</a></li><li><a href=https://www.linkedin.com/in/reis-r/ >LinkedIn</a></li><li><a href=https://undeadelectrichyena.bandcamp.com>My Music</a></li><li><a href=/feeds/all.rss.xml>RSS</a></li><li><a href=https://ko-fi.com/G2G11HSUS>Buy me Ko-fi</a></li><li><a href=https://twitter.com/reis__r>Twitter</a></li></ul><ul><h4>By topic:</h4><li><a href=https://reis-r.github.io/category/clojure.html>clojure</a></li><li><a href=https://reis-r.github.io/category/hy.html>hy</a></li><li class=active><a href=https://reis-r.github.io/category/linux.html>linux</a></li><li><a href=https://reis-r.github.io/category/misc.html>misc</a></li><li><a href=https://reis-r.github.io/category/python.html>python</a></li></ul></nav><br><footer id=contentinfo class=body><address id=about class="vcard body"><center><a href=http://creativecommons.org/licenses/by-sa/4.0/ rel=license><img alt="Creative Commons Licence" style=border-width:0 src=https://i.creativecommons.org/l/by-sa/4.0/88x31.png></a><br>This work is licensed under a <a href=http://creativecommons.org/licenses/by-sa/4.0/ rel=license>Creative Commons Attribution-ShareAlike 4.0 International License</a>. <br> Proudly powered by <a href=http://getpelican.com/ >Pelican</a>, which takes great advantage of <a href=http://python.org>Python</a>. </center></address></footer></body></html>
