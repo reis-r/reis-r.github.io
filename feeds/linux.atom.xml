@@ -33,7 +33,6 @@
 &lt;span class="err"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;So in that case, "my-cool-programs" is our "package" (I'm pretty sure this is not the right jargon for this). What you need to do then is to run &lt;code&gt;nix-env -i my-cool-programs --remove-all&lt;/code&gt;. This will install the packages you mentioned on the configuation. The &lt;code&gt;--remove-all&lt;/code&gt; option means that you will remove everything you had before installing your package, I think the system-wide command for building the system (&lt;code&gt;nixos-rebuild&lt;/code&gt;) may work in similar way behind the scenes.&lt;/p&gt;
 &lt;p&gt;Bonus points: I created Emacs commands for both editing the configuration file and running the install command. &lt;em&gt;stonks&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;There is more. Lot more. But I'm pretty happy with this simple setup already. You can also use &lt;code&gt;.nix&lt;/code&gt; files to create temporary environments you can do if for building/testing software or for running environments like conda/virtualenv (good for Jupyter notebooks).&lt;/p&gt;</content><category term="linux"></category><category term="linux"></category><category term="unix"></category><category term="nix"></category><category term="nixos"></category><category term="operating systems"></category></entry></feed>
